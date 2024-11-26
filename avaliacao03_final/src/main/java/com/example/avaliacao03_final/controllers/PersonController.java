@@ -17,23 +17,30 @@ public class PersonController {
     PersonService personService;
     @PostMapping
     @ResponseBody
-    public PersonResponseDto insertPerson(@RequestBody PersonRequestDto personRequestDto){
-        return personService.insertPerson(personRequestDto);
+    public PersonResponseDto save(@RequestBody PersonRequestDto personRequestDto){
+        return personService.save(personRequestDto);
     }
     @GetMapping
     @ResponseBody
-    public List<PersonResponseDto> returnPeople(){
-        return personService.returnPeople();
+    public List<PersonResponseDto> findAll(){
+        return personService.findAll();
     }
 
     @GetMapping("/{id}")
-    public PersonResponseDto returnPersonById(@PathVariable("id") String id) {
-        return personService.returnPersonById(UUID.fromString(id));
+    @ResponseBody
+    public PersonResponseDto findById(@PathVariable("id") String id) {
+        return personService.findById(UUID.fromString(id));
     }
 
     @DeleteMapping("/{id}")
-    public void deletePersonById(@PathVariable("id") String id) {
-        //personService.deletePersonById(UUID.fromString(id));
+    @ResponseBody
+    public PersonResponseDto deleteById(@PathVariable("id") String id) {
+        return personService.deleteById(UUID.fromString(id));
     }
 
+    @PatchMapping("/{id}")
+    @ResponseBody
+    public PersonResponseDto patch(@PathVariable("id") String id, @RequestBody PersonRequestDto personRequestDto){
+        return personService.patch(UUID.fromString(id), personRequestDto);
+    }
 }

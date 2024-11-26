@@ -1,16 +1,13 @@
 package com.example.avaliacao03_final.controllers;
 
-import com.example.avaliacao03_final.dtos.PatientErrorDto;
 import com.example.avaliacao03_final.dtos.PatientRequestDto;
 import com.example.avaliacao03_final.dtos.PatientResponseDto;
 import com.example.avaliacao03_final.services.PatientService;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/patient")
@@ -19,25 +16,30 @@ public class PatientController {
     PatientService patientService;
     @PostMapping
     @ResponseBody
-    public PatientResponseDto insertPatient(@RequestBody PatientRequestDto patientRequestDto){
-        return patientService.insertPatient(patientRequestDto);
+    public PatientResponseDto save(@RequestBody PatientRequestDto patientRequestDto){
+        return patientService.save(patientRequestDto);
     }
     @GetMapping
     @ResponseBody
-    //Should not return a list of the model
-    public List<PatientResponseDto> returnPatients(){
-        return patientService.returnPatients();
+    public List<PatientResponseDto> findAll(){
+        return patientService.findAll();
     }
 
-    //doesn't work, don't know why tho
-    @ExceptionHandler(EntityNotFoundException.class)
+    @GetMapping("/{id}")
     @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public PatientErrorDto error(HttpServletRequest req, EntityNotFoundException ex) {
-        return new PatientErrorDto(
-                HttpStatus.BAD_REQUEST,
-                ex.getMessage()
-        );
+    public PatientResponseDto findById(@PathVariable("id") String id){
+        return patientService.findById(UUID.fromString(id));
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public PatientResponseDto deleteById(@PathVariable("id") String id){
+        return patientService.deleteById(UUID.fromString(id));
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseBody
+    public PatientResponseDto patch(@PathVariable("id") String id, @RequestBody PatientRequestDto patientRequestDto){
+        return patientService.patch(UUID.fromString(id), patientRequestDto);
+    }
 }

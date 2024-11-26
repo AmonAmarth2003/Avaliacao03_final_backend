@@ -1,4 +1,0 @@
-2024-11-23 17:11:57.713672-03:00 jdbc[13]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM Person\000d\000aPERSON [*]PATIENT"; SQL statement:
-SELECT * FROM Person
-PERSON PATIENT [42000-224]

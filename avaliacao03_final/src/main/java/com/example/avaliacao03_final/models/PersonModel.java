@@ -15,7 +15,7 @@ public class PersonModel {
     private String contact;
     private String gender;
 
-    //Apperently hibernate requires a default no args constructor to be able to handle the repositories methods.
+    //hibernate requires a default constructor to handle the repositories methods.
     public PersonModel() {}
     public PersonModel(String name, String contact, String gender){
         this.name = name;

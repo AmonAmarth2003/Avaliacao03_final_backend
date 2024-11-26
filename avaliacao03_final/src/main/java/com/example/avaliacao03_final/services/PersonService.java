@@ -5,6 +5,7 @@ import com.example.avaliacao03_final.dtos.PersonResponseDto;
 import com.example.avaliacao03_final.mappers.PersonMapper;
 import com.example.avaliacao03_final.models.PersonModel;
 import com.example.avaliacao03_final.repositories.PersonRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class PersonService {
     @Autowired
     PersonMapper personMapper;
 
-    public PersonResponseDto insertPerson(PersonRequestDto personRequestDto){
+    public PersonResponseDto save(PersonRequestDto personRequestDto){
         PersonModel personModel = new PersonModel(
                 personRequestDto.name(),
                 personRequestDto.contact(),
@@ -27,12 +28,34 @@ public class PersonService {
         return personMapper.toDto(personModel);
     }
 
-    public List<PersonResponseDto> returnPeople(){
+    public List<PersonResponseDto> findAll(){
         return personRepository.findAll().stream().map(personMapper::toDto).toList();
     }
 
-    public PersonResponseDto returnPersonById(UUID id){
-        PersonModel personModel = personRepository.findById(id).orElseThrow( () -> new RuntimeException("Person not found!"));
+    public PersonResponseDto findById(UUID id){
+        PersonModel personModel = verifyById(id);
         return personMapper.toDto(personModel);
+    }
+
+    //throw new IllegalStateException("Cannot delete person with ID " + id + " because it is referenced in other tables.");
+    public PersonResponseDto deleteById(UUID id){
+        PersonModel personModel = verifyById(id);
+        personRepository.delete(personModel);
+        return personMapper.toDto(personModel);
+    }
+
+    public PersonResponseDto patch(UUID id, PersonRequestDto personRequestDto){
+        PersonModel personModel = verifyById(id);
+        if(personRequestDto.name() != null){ personModel.setName(personRequestDto.name());}
+        if(personRequestDto.contact() != null){ personModel.setContact(personRequestDto.contact());}
+        if(personRequestDto.gender() != null){ personModel.setGender(personRequestDto.gender());}
+        personRepository.save(personModel);
+        return personMapper.toDto(personModel);
+    }
+
+    protected PersonModel verifyById(UUID id){
+        return personRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Person with ID " + id + " not found")
+        );
     }
 }
