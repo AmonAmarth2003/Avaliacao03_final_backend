@@ -3,6 +3,7 @@ package com.example.avaliacao03_final.controllers;
 import com.example.avaliacao03_final.dtos.PatientRequestDto;
 import com.example.avaliacao03_final.dtos.PatientResponseDto;
 import com.example.avaliacao03_final.services.PatientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

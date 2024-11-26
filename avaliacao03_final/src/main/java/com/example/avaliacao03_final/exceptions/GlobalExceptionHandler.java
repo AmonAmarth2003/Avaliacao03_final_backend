@@ -4,6 +4,7 @@ import com.example.avaliacao03_final.dtos.GlobalExceptionDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -30,6 +31,16 @@ public class GlobalExceptionHandler {
         return new GlobalExceptionDto(
                 HttpStatus.BAD_REQUEST,
                 ex.getMessage()
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public GlobalExceptionDto NotValidException(HttpServletRequest req, MethodArgumentNotValidException ex) {
+        return new GlobalExceptionDto(
+                HttpStatus.BAD_REQUEST,
+                ex.getAllErrors().get(0).getDefaultMessage()
         );
     }
 }

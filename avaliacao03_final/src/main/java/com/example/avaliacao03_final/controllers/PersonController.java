@@ -4,6 +4,7 @@ import com.example.avaliacao03_final.dtos.PersonRequestDto;
 import com.example.avaliacao03_final.dtos.PersonResponseDto;
 import com.example.avaliacao03_final.models.PersonModel;
 import com.example.avaliacao03_final.services.PersonService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class PersonController {
     PersonService personService;
     @PostMapping
     @ResponseBody
-    public PersonResponseDto save(@RequestBody PersonRequestDto personRequestDto){
+    public PersonResponseDto save(@RequestBody @Valid PersonRequestDto personRequestDto){
         return personService.save(personRequestDto);
     }
     @GetMapping

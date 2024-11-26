@@ -1,5 +1,7 @@
 package com.example.avaliacao03_final.dtos;
 
-import java.util.UUID;
+import jakarta.validation.constraints.NotBlank;
 
-public record PersonRequestDto(String name, String contact, String gender) { }
+public record PersonRequestDto(@NotBlank(message="name cannot be empty") String name,
+                               String contact,
+                               String gender) { }
