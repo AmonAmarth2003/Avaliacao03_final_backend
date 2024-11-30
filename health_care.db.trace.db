@@ -1,0 +1,3 @@
+2024-11-30 16:12:59.397856-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APPOINTMENT" not found; SQL statement:
+select * from appointment [42102-224]

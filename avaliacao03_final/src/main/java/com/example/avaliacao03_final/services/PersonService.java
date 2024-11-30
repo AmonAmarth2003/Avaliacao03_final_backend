@@ -7,6 +7,7 @@ import com.example.avaliacao03_final.models.PersonModel;
 import com.example.avaliacao03_final.repositories.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,9 +40,10 @@ public class PersonService {
 
     //throw new IllegalStateException("Cannot delete person with ID " + id + " because it is referenced in other tables.");
     public PersonResponseDto deleteById(UUID id){
-        PersonModel personModel = verifyById(id);
-        personRepository.delete(personModel);
-        return personMapper.toDto(personModel);
+        PersonModel person = verifyById(id);
+        try{ personRepository.delete(person); }
+            catch(DataIntegrityViolationException ex){ throw new IllegalStateException("Cannot delete person"); }
+        return personMapper.toDto(person);
     }
 
     public PersonResponseDto patch(UUID id, PersonRequestDto personRequestDto){

@@ -8,6 +8,7 @@ import com.example.avaliacao03_final.models.PersonModel;
 import com.example.avaliacao03_final.repositories.DoctorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +41,8 @@ public class DoctorService {
 
     public DoctorResponseDto deleteById(UUID id){
         DoctorModel doctor = verifyById(id);
+        try{ doctorRepository.delete(doctor); }
+            catch(DataIntegrityViolationException ex){ throw new IllegalStateException("Cannot delete doctor"); }
         return doctorMapper.toDto(doctor);
     }
 

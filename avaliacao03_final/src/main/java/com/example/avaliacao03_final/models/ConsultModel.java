@@ -6,29 +6,29 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name="appointment")
-public class AppointmentModel {
+@Table(name="consult")
+public class ConsultModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
     LocalDate date;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "doctor_id", referencedColumnName = "id", nullable = false)
     private DoctorModel doctor;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false)
     private PatientModel patient;
 
-    public AppointmentModel(){}
-    public AppointmentModel(LocalDate date, DoctorModel doctor, PatientModel patient){
+    public ConsultModel(){}
+    public ConsultModel(LocalDate date, DoctorModel doctor, PatientModel patient){
         this.date = date;
         this.doctor = doctor;
         this.patient = patient;
     }
 
-    public AppointmentModel(LocalDate  date){ this.date = date; }
+    public ConsultModel(LocalDate  date){ this.date = date; }
     public LocalDate getDate() {
         return date;
     }
@@ -39,5 +39,6 @@ public class AppointmentModel {
         return id;
     }
     public DoctorModel getDoctor() { return doctor; }
+    public void setDoctor(DoctorModel doctor) { this.doctor = doctor; }
     public PatientModel getPatient() { return patient; }
 }
