@@ -41,7 +41,7 @@ Infomações:
 
 ----
 
-POST Appointment (Mapping:"/appointment"):
+POST Appointment (Mapping:"/consult"):
 
 {
     "date" : "10/22/2025"
@@ -54,5 +54,12 @@ Infomações:
   "mês/dia/ano"
 - doctor_id: UUID do médico.
 - pacient_id: UUID do paciente (UUID de Pacient e Doctor não são os mesmos de Person).
+
+----
+
+Methods: Get, Delete e Update.
+structure: localhost:8080/{model}/{id}
+- model: Modelo que deseja utilizar: person/patient/doctor/consult
+- id: Registro que deseja pesquisar
 
 ----

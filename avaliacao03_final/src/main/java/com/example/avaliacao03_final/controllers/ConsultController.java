@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/consultation")
+@RequestMapping("/consult")
 public class ConsultController {
     @Autowired
     ConsultService consultationService;
